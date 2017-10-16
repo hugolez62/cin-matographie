@@ -14,16 +14,23 @@ $(document).ready(function() {
 
         success: function (data) {
             // Je charge les données dans box
-            alert('bravo');
             console.log(data);
+
+            if(data.results[0] != null ){
+
             document.getElementById("img").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[0].poster_path +"'></img>";
-            document.getElementById("villeAffich").innerHTML = data.results[0].original_title;
+            document.getElementById("titre").innerHTML = data.results[0].original_title;
             document.getElementById("date").innerHTML = data.results[0].release_date;
+            document.getElementById("over").innerHTML = data.results[0].overview;
+            }
+            else{
+              alert("Aucun film trouvé");
+            }
 
         },
         error: function(data) {
             // J'affiche un message d'erreur
-            alert('pas bravo');
+            alert("Nom de film non valide");
             console.log(data);
         }
 
