@@ -1,5 +1,6 @@
 $(document).ready(function() {
 top6();
+ajout_recent();
 
 
   /* --------------------------- */
@@ -10,8 +11,6 @@ top6();
 
   $(".button").click(function(event){
     event.preventDefault();
-    document.getElementById("suivant").style.visibility = "visible";
-    document.getElementById("precedent").style.visibility = "visible";
 
     var v = document.getElementById("ville").value;
 
@@ -128,11 +127,11 @@ $("button#suivant").click(function(event){
           $("button#precedent").fadeIn();
           document.getElementById("img").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.poster_path +"'></img>";
           document.getElementById("titre").innerHTML = data.original_title;
-          document.getElementById("note").innerHTML = "note : "+data.vote_average;
-          document.getElementById("votes").innerHTML ="nombre de votes : " +data.vote_count;
+          document.getElementById("note").innerHTML = data.vote_average;
+          document.getElementById("votes").innerHTML = data.vote_count;
 
-          document.getElementById("date").innerHTML = "date de sortie : "+ data.release_date;
-          document.getElementById("over").innerHTML = "Synopsis : " + data.overview;
+          document.getElementById("date").innerHTML = data.release_date;
+          document.getElementById("over").innerHTML = data.overview;
           document.getElementById("idfilm").innerHTML = data.id;
           }
           else{
@@ -171,52 +170,16 @@ function top6() {
         // Je charge les données dans box
         console.log(data);
 
+        //AFFICHAGE DES 6 FILMS
+              var z;
+              for(z=0;z<7;z++){
+                  $("#lien"+(z+1).toString()).attr("href", "film.html?id="+data.results[z].id);
+                  document.getElementById("img"+((z+1).toString())).innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[z].poster_path +"'></img>";
+                  document.getElementById("titre"+((z+1).toString())).innerHTML = data.results[z].original_title;
+                  document.getElementById("date"+((z+1).toString())).innerHTML = data.results[z].release_date;
+                  document.getElementById("note"+((z+1).toString())).innerHTML = data.results[z].vote_average;
 
-        //FILM 1
-            document.getElementById("img1").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[0].poster_path +"'></img>";
-            document.getElementById("titre1").innerHTML = data.results[0].original_title;
-            document.getElementById("over1").innerHTML = "Synopsis : " + data.results[0].overview;
-
-      //FILM 2
-
-
-            document.getElementById("img2").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[1].poster_path +"'></img>";
-            document.getElementById("titre2").innerHTML = data.results[1].original_title;
-            document.getElementById("over2").innerHTML = "Synopsis : " + data.results[1].overview;
-
-      //FILM 3
-
-
-            document.getElementById("img3").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[2].poster_path +"'></img>";
-            document.getElementById("titre3").innerHTML = data.results[2].original_title;
-            document.getElementById("over3").innerHTML = "Synopsis : " + data.results[2].overview;
-
-      //FILM 4
-
-            document.getElementById("img4").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[3].poster_path +"'></img>";
-            document.getElementById("titre4").innerHTML = data.results[3].original_title;
-            document.getElementById("over4").innerHTML = "Synopsis : " + data.results[3].overview;
-
-
-      //FILM 5
-            document.getElementById("img5").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[4].poster_path +"'></img>";
-            document.getElementById("titre5").innerHTML = data.results[4].original_title;
-            document.getElementById("over5").innerHTML = "Synopsis : " + data.results[4].overview;
-
-      //FILM 6
-
-            document.getElementById("img6").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[5].poster_path +"'></img>";
-            document.getElementById("titre6").innerHTML = data.results[5].original_title;
-            document.getElementById("over6").innerHTML = "Synopsis : " + data.results[5].overview;
-
-
-
-
-
-
-
-
-
+                }
     },
     error: function(data) {
         // J'affiche un message d'erreur
@@ -234,17 +197,46 @@ $("button#boutontop6").click(function(event){
 
 });
 
+function ajout_recent() {
+  $.ajax({
+
+    dataType: "json",
+    url: "https://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&api_key=84298ce1f4116edf6c28f5353209f4a4",
+    jsonpCallback: "callback",
+
+    success: function (data) {
+        // Je charge les données dans box
+        console.log(data);
 
 
+        //FILM 1
+            document.getElementById("imgajoutrecent1").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[0].poster_path +"'></img>";
+            document.getElementById("titreajoutrecent1").innerHTML = data.results[0].original_title;
+            document.getElementById("dateajoutrecent1").innerHTML = data.results[0].release_date;
+
+      //FILM 2
 
 
+            document.getElementById("imgajoutrecent2").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[1].poster_path +"'></img>";
+            document.getElementById("titreajoutrecent2").innerHTML = data.results[1].original_title;
+            document.getElementById("dateajoutrecent2").innerHTML = data.results[1].release_date;
+
+      //FILM 3
 
 
+            document.getElementById("imgajoutrecent3").innerHTML = "<img src='https://image.tmdb.org/t/p/w500/"+data.results[2].poster_path +"'></img>";
+            document.getElementById("titreajoutrecent3").innerHTML = data.results[2].original_title;
+            document.getElementById("dateajoutrecent3").innerHTML = data.results[2].release_date;
 
+    },
+    error: function(data) {
+        // J'affiche un message d'erreur
+        alert("désolé pas d'autres films");
+        console.log(data);
+    }
 
-
-
-
+  });
+};
 
 
 
