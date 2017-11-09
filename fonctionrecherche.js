@@ -14,6 +14,7 @@ $("#research").keydown(function(event){
             // Je charge les données dans box
             console.log(data);
             document.getElementById("result1").innerHTML = data.results[0].original_title;
+            $("a#resultat").attr("href", "film.php?id="+data.results[0].id);
         }
       });
 });
